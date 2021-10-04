@@ -1,14 +1,11 @@
 import React from 'react';
-import {nameMap} from '../../data'
 import styled from 'styled-components'
  
-function selectInput() {
-    const lists = Object.keys(nameMap)
-    console.log(lists)
+function selectInput({label,lists,disabled=false}:{label:string,lists:string[],disabled?:boolean}) {
     return (
         <StyledSelect>
-            <select name='region1' id='region1'>
-                <option value=''>지역을 선택하세요</option>
+            <select disabled={disabled} name='region1' id='region1'>
+                <option value=''>{label}</option>
                 {lists.map((list,index) => {
                     return <option key={index} value={list}>{list}</option>
                 })}
