@@ -13,5 +13,17 @@ export const SecondaryButton = styled(Button)`
     border:1px solid ${props => props.theme.lightMdGray};
     color:${props => props.theme.textColorGray};
 `
-
+export const RoundButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 70px;
+    height: 70px;
+    font-size: 53px;
+    border-radius:50%;
+    background: ${props => props.color};
+    text-align: center;
+    color:#ffffff;
+`
 

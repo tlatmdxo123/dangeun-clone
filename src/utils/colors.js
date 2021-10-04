@@ -6,3 +6,7 @@ export const neutral = {
   500: "#4D5159",
   600: "#212529",
 };
+
+export const primary = {
+  orange: "#FF8A3D",
+};

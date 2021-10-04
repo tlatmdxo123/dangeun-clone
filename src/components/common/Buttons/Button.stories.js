@@ -1,4 +1,5 @@
-import {SecondaryButton,Button} from './index'
+import {SecondaryButton,Button,RoundButton} from './index'
+import { MdOutlineAdd } from "react-icons/md";
 
 export default{
     component:Button,
@@ -6,3 +7,8 @@ export default{
 }
 
 export const Secondary = () => <SecondaryButton>당근채팅</SecondaryButton>;
+export const Round = () => (
+  <RoundButton color="#FF8A3D">
+    <MdOutlineAdd />
+  </RoundButton>
+);
