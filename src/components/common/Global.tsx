@@ -54,4 +54,15 @@ export const GlobalStyle = createGlobalStyle`
         background: none;
         border:none;
     }
+    .hidden {
+        overflow: hidden;
+        display: inline-block;
+        position: relative;
+        z-index: -1;
+        border: 0;
+        width: 1px;
+        height: 1px;
+        clip: rect(1px, 1px, 1px, 1px);
+        clip-path: inset(50%);
+    }
 `
