@@ -11,7 +11,7 @@ export const UnderLineContainer = styled.div`
         color:${props => props.theme.lightMdGray};
     }
 `
-export const PriceInput = styled(UnderLineContainer)`
+export const PriceInputContainer = styled(UnderLineContainer)`
     display: flex;
     .won{
         color:${props => props.theme.textColorLight};
@@ -26,7 +26,7 @@ export const PriceInput = styled(UnderLineContainer)`
     }
 
 `
-export const SelectInput = styled(UnderLineContainer)`
+export const SelectInputContainer = styled(UnderLineContainer)`
     justify-content: space-between;
     select{
         border:none;
