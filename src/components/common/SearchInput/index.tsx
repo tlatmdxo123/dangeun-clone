@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components'
 import {MdSearch} from 'react-icons/md'
 
-
 function SearchInput({placeholder}:{placeholder:string}) {
     return (
         <StyledSearchInput >

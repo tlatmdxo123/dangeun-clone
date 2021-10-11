@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'styled-components'
-function TextField() {
-
+type props = {
+    name:string,
+    placeholder:string
+}
+function TextField({name,placeholder}:props) {
     return (
-        <StyledTextArea>
-            <label htmlFor='product-description' className='hidden'>
+        <StyledTextArea className='textarea'>
+            <label htmlFor={name} className='hidden'>
                 product descript textarea
             </label>
-            <textarea id='product-description' name='product-description' placeholder={`{}에 올릴 게시글 내용을 작성해주세요.(가품 및 판매금지품목은 게시가 제한될 수 있어요.)`}>
+            <textarea id={name} name={name} placeholder={placeholder}>
                 
             </textarea>
         </StyledTextArea>
@@ -18,9 +21,12 @@ const StyledTextArea = styled.div`
     width: 100%;
     textarea{
         width: 100%;
+        height: 100%;
+        padding: 0;
         resize: none;
         border:none;
         outline:none;
+
     }
     textarea:placeholder{
         color:${props => props.theme.textColorLight};
