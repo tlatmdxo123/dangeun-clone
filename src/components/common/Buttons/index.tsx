@@ -6,6 +6,7 @@ export const Button = styled.button`
     padding: 9px 30px;
     font-size: 16px;
     border-radius: 6px;
+    cursor: pointer;
 `
 export const SecondaryButton = styled(Button)`
     background: none;

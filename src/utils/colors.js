@@ -5,6 +5,7 @@ export const neutral = {
   400: "#A3A2A2",
   500: "#4D5159",
   600: "#212529",
+  700:"#5F5F5F"
 };
 
 export const primary = {

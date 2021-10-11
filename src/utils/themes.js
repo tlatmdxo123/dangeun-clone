@@ -5,5 +5,6 @@ export const defaultTheme = {
   "lightMdGray":neutral[300],
   "textColorLight":neutral[400],
   "textColorGray":neutral[500],
+  "darkGray":neutral[700],
   "primary":primary['orange']
 };
