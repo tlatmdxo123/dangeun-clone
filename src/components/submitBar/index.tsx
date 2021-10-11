@@ -5,7 +5,7 @@ import {MdKeyboardBackspace} from 'react-icons/md'
 
 function SubmitBar() {
     return (
-        <Container>
+        <Container className='submit-bar'>
             <SubmitBarContainer>
                 <Button className='cancel'>
                     <MdKeyboardBackspace/>
@@ -33,6 +33,7 @@ const SubmitBarContainer = styled.div`
     max-width: 1280px;
     display: flex;
     justify-content: space-between;
+    margin: 0 auto;
     .cancel{
         color:${props => props.theme.darkGray};
         span{

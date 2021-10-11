@@ -8,6 +8,7 @@ import SelectInput from '../../components/underlineInput/SelectInput';
 import TitleInput from '../../components/underlineInput/TitleInput';
 import { PRODUCT_CATEGORY } from '../../constants';
 import Header from '../../components/common/Header';
+import SubmitBar from '../../components/submitBar';
 
 function UploadPage() {
     const place = '송산1동'
@@ -24,6 +25,7 @@ function UploadPage() {
             <SelectInput selectLists={PRODUCT_CATEGORY}/>
             <PriceInput placeholder='가격(선택사항)'/>
             <TextField name='product-description' placeholder={`${place}에 올릴 게시글 내용을 작성해주세요.(가품 및 판매금지품목은 게시가 제한될 수 있어요.)`}/>
+            <SubmitBar/>
         </Container>
         </>
     );
@@ -40,6 +42,11 @@ const Container = styled.div`
     flex-direction: column;
     .textarea{
         flex-grow: 1;
+    }
+    .submit-bar{
+        position: fixed;
+        left: 0;
+        bottom: 0;
     }
 `
 export default UploadPage;
