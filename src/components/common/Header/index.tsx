@@ -25,7 +25,7 @@ const StyledHeader = styled.header`
     border-bottom: 1px solid ${props => props.theme.lightGray};
     .container{
         display: flex;
-        width: 100%;
+        width: 90%;
         max-width: 1280px;
         margin: 0 auto;
         padding: 20px 0 12px 0;
