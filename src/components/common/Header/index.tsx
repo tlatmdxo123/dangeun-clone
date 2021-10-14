@@ -23,6 +23,8 @@ const StyledHeader = styled.header`
     display: flex;
     width: 100%;
     border-bottom: 1px solid ${props => props.theme.lightGray};
+    background: #ffffff;
+    z-index:999;
     .container{
         display: flex;
         width: 90%;
