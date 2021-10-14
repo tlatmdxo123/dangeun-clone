@@ -14,7 +14,8 @@ type Info = {
 }
 
 function ProductInfo({title,price,content,category,createdAt,like,chat}:Info) {
-    const fromNow = timeFromNow(createdAt)
+    const curDate = new Date(createdAt)
+    const fromNow = timeFromNow(curDate)
     return (
         <ProductInfoContainer>
             <div className="header">
