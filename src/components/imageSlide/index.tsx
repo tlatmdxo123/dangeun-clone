@@ -42,21 +42,27 @@ function ImageSlide({imageLists,title}:{imageLists:string[],title:string}) {
 }
 
 const Frame = styled.div`
-    width: 300px;
-    height: 300px;
-    overflow: hidden;
+    width: 100%;
+    height: 500px;
+    overflow: hidden; 
     position: relative;
 `
 
 const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    float:left;
     .item{
+        width: 100%;
         cursor: pointer;
         position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        img{
+            width: 100%;
+        }
     }
 `
 

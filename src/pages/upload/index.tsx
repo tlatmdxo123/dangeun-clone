@@ -9,6 +9,7 @@ import TitleInput from '../../components/underlineInput/TitleInput';
 import { PRODUCT_CATEGORY } from '../../constants';
 import Header from '../../components/common/Header';
 import SubmitBar from '../../components/submitBar';
+import { PageContainer } from '../PageContainer';
 
 function UploadPage() {
     const place = '송산1동'
@@ -31,15 +32,7 @@ function UploadPage() {
     );
 }
 
-const Container = styled.div`
-    width: 90%;
-    height: 100vh;
-    max-width: 677px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding-top: 108px;
-    display: flex;
-    flex-direction: column;
+const Container = styled(PageContainer)`
     .textarea{
         flex-grow: 1;
     }
