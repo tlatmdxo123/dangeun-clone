@@ -1,25 +1,20 @@
 import React from 'react';
 import styled from 'styled-components'
 
-export type ProductInfo = {
-    _id:string,
-    userId:string,
-    images:string[],
+type Props = {
+    image:string,
     title:string,
     price:number,
     address:string,
-    content:string,
-    createdAt:Date,
     like:number,
     chat:number
 }
 
-function ProductItem({info}:{info:ProductInfo}) {
-    const {images,title,price,address,like,chat} = info
+function ProductItem({image,title,price,address,like,chat}:Props) {
     return (
         <StyledItem>
             <div className='product-image'>
-                <img src={images[0]} alt={`${title} image`}/>
+                <img src={image} alt={`${title} image`}/>
             </div>
             
             <div className="product-info">
