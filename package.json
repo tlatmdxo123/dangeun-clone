@@ -12,17 +12,24 @@
   },
   "dependencies": {
     "@svgr/webpack": "^5.5.0",
+    "@types/redux-logger": "^3.0.9",
     "babel-plugin-styled-components": "^1.13.2",
     "mongodb": "3.6.3",
+    "mongoose": "^6.0.11",
     "next": "11.1.2",
     "next-auth": "^3.1.0",
     "next-connect": "^0.9.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
+    "react-redux": "^7.2.5",
     "react-spring": "^9.3.0",
+    "redux": "^4.1.1",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "^2.0.0",
     "styled-components": "^5.3.1",
-    "styled-normalize": "^8.0.7"
+    "styled-normalize": "^8.0.7",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -30,6 +37,7 @@
     "@storybook/addon-essentials": "^6.3.8",
     "@storybook/addon-links": "^6.3.8",
     "@storybook/react": "^6.3.8",
+    "@types/mongodb": "3.5.34",
     "@types/react": "17.0.20",
     "@types/styled-components": "^5.1.14",
     "babel-loader": "^8.2.2",
