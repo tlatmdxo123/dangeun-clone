@@ -23,4 +23,9 @@ export default class MongDB{
         const db = await this.connectToDB()
         db.collection(name).findOne(query,then)
     }
+
+    public async updateOne(name:string,filter:any,update:any,then:any){
+        const db = await this.connectToDB()
+        db.collection(name).updateOne(filter,update,then)
+    }
 }

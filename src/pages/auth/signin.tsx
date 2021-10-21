@@ -4,17 +4,17 @@ import {useRouter} from 'next/router'
 import styled from 'styled-components'
 import SocialButton from '../../components/socialButtons';
 
+
 function SignIn() {
     const [session,loading] = useSession()
     const router = useRouter();
     useEffect(() => {
-        if(session){
+        if(session && session.user){
             router.push('/products')
         }
     },[session])
     return (
         <Container>
-            <SocialButton onClick={()=>signIn('github')} type='github'/>
             <SocialButton onClick={()=>signIn('google')} type='google'/>
         </Container>
     );

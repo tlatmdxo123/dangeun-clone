@@ -1,10 +1,10 @@
 import { combineReducers,applyMiddleware,createStore } from 'redux'
 import {combineEpics,createEpicMiddleware} from 'redux-observable'
-import { getUserByEmailEpic } from './user/middlewares'
+import { editUserEpic, getUserByEmailEpic } from './user/middlewares'
 import { userReducer } from './user/reducer'
 import logger from 'redux-logger'
 
-const rootEpic = combineEpics(getUserByEmailEpic)
+const rootEpic = combineEpics(getUserByEmailEpic,editUserEpic)
 
 const rootReducer = combineReducers({user:userReducer})
 

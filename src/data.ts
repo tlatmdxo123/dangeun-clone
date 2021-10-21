@@ -1,4 +1,8 @@
-export const nameMap = 
+interface NameMap{
+  [key:string]:string[]
+}
+
+export const nameMap:NameMap = 
   {
     강원도: [
       "강릉시",

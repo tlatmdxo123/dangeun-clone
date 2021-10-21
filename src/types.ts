@@ -11,3 +11,13 @@ export type ProductInfo = {
     like:number,
     chat:number
 }
+
+export type User = {
+    _id:string,
+    name:string,
+    email:string,
+    image:string,
+    emailVerified:boolean,
+    createdAt:Date,
+    updatedAt:Date
+}
