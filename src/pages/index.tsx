@@ -1,16 +1,10 @@
-import type { NextPage } from 'next'
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import Head from 'next/head'
 import Header from '../components/common/Header'
-import { useSession } from 'next-auth/client'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { getSession } from 'next-auth/client'
+import { redirect } from '../utils/routes'
 
 const Home: NextPage = () => {
-  const [session,loading] = useSession();
-  const router = useRouter();
-  useEffect(() => {
-    session ? router.push('/products') : router.push('auth/signin')
-  })
   return (
       <div>
         <Head>
@@ -25,4 +19,10 @@ const Home: NextPage = () => {
   )
 }
 
+export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
+  const session = await getSession(ctx);
+
+  return session ? redirect('/products') : redirect("/auth/signin");
+}
+ 
 export default Home
