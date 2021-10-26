@@ -19,6 +19,11 @@ export default class MongDB{
             return MongDB.CONN
         }
     }
+    public async find(name:string,then:any){
+        const db = await this.connectToDB()
+        return db.collection(name).find({},then)
+    }
+
     public async findOne(name:string,query:any,then:any){
         const db = await this.connectToDB()
         db.collection(name).findOne(query,then)
@@ -28,4 +33,11 @@ export default class MongDB{
         const db = await this.connectToDB()
         db.collection(name).updateOne(filter,update,then)
     }
+
+    public async insertOne(name:string,data:any,then:any){
+        const db = await this.connectToDB()
+        db.collection(name).insertOne(data,then)
+    }
+
+    
 }
