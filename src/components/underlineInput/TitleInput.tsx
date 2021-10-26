@@ -1,10 +1,10 @@
 import React from 'react';
 import { UnderLineContainer } from './styles';
 
-function TitleInput({placeholder}:{placeholder:string}) {
+function TitleInput({placeholder,name}:{placeholder:string,name:string}) {
     return (
         <UnderLineContainer>
-            <input type="text" placeholder={placeholder} />
+            <input type="text" placeholder={placeholder} name={name}/>
         </UnderLineContainer>
     );
 }
