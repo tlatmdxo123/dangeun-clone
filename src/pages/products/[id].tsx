@@ -1,5 +1,5 @@
-import React from 'react';
-import {GetServerSidePropsContext, NextPageContext} from 'next'
+import React, { useEffect, useState } from 'react';
+import {GetServerSidePropsContext} from 'next'
 import Head from 'next/head'
 import { ProductInfo as ProductInfoType } from '../../types'
 import UserInfo from '../../components/userInfo';
@@ -12,6 +12,7 @@ import Header from '../../components/common/Header';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/client';
 import { redirect } from '../../utils/routes';
+import axios from 'axios'
 
 interface Props{
     productInfo:ProductInfoType,
@@ -20,8 +21,20 @@ interface Props{
 }
 
 
-function InfomationPage({productInfo,user,productsInfo}:Props) {
+function InfomationPage({productInfo,productsInfo}:Props) {
+    const [user,setUser] = useState<UserInfo>();
     const router = useRouter();
+
+    const fetchUser = async () => {
+        const user = await axios.get(`/api/user/${productInfo.userId}`)
+        
+        setUser(user.data);
+    }
+
+    useEffect(() => {
+        fetchUser();
+    },[productInfo.userId])
+    
     return (
         <>
             <Head>
@@ -34,7 +47,7 @@ function InfomationPage({productInfo,user,productsInfo}:Props) {
                     <ImageSlide imageLists={productInfo.images} title={productInfo.title}/>
                 </SlideContainer>
                 
-                <UserInfo {...user}/>
+                {user && <UserInfo name={user.name} address={user.address} image={user.image}/>}
                 <ProductInfo title={productInfo.title} price={productInfo.price} content={productInfo.content} category={productInfo.category} createdAt={productInfo.createdAt} chat={productInfo.chat} like={productInfo.like}/>
                 <PopularProductsContainer>
                     <HeaderContainer>
@@ -55,8 +68,6 @@ export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
     if(!session) return redirect('/auth/signin')
 
     if(session && session.user){
-        const res = await fetch(`http://localhost:3000/api/user/email/${session.user.email}`)
-            .then(res => res.json())
 
         const productInfo = await fetch(`http://localhost:3000/api/product/${productId}`)
             .then(res => res.json())
@@ -64,7 +75,7 @@ export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
             .then(res => res.json());
 
         return {
-            props:{user:res,productInfo,productsInfo}
+            props:{productInfo,productsInfo}
         }
     }
     
