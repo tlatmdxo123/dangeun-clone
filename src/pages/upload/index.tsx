@@ -15,10 +15,12 @@ import { User } from '../../store/user/types';
 import { getSession } from 'next-auth/client';
 import { redirect } from '../../utils/routes';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 
 function UploadPage({user}:{user:User}) {
+    const router = useRouter();
+
     const [imageLists,setImageLists] = useState<string[]>([])
-    const place = '송산1동'
     const upload = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
@@ -26,9 +28,15 @@ function UploadPage({user}:{user:User}) {
 
         data.append('userId',user._id)
         data.append('address',user.addr as string)
-        await axios.post('/api/product',data,{headers:{
-            "Content-Type": "multipart/form-data; boundary='Boundary'"
-        }});
+        try {
+            await axios.post('/api/product',data,{headers:{
+                "Content-Type": "multipart/form-data; boundary='Boundary'"
+            }});
+            router.push('/products')
+        } catch (error) {
+            
+        }
+       
     }
 
     const preview = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +79,7 @@ function UploadPage({user}:{user:User}) {
                 <TitleInput placeholder='글 제목' name='title'/>
                 <SelectInput selectLists={PRODUCT_CATEGORY} name='category'/>
                 <PriceInput placeholder='가격(선택사항)' name='price'/>
-                <TextField name='content' placeholder={`${place}에 올릴 게시글 내용을 작성해주세요.(가품 및 판매금지품목은 게시가 제한될 수 있어요.)`}/>
+                <TextField name='content' placeholder={`${user.addr}에 올릴 게시글 내용을 작성해주세요.(가품 및 판매금지품목은 게시가 제한될 수 있어요.)`}/>
                 <SubmitBar/>
             </UploadForm>
             
