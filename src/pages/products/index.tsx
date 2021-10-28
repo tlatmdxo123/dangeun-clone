@@ -42,7 +42,7 @@ function ProductPage({user,products}:{user:User,products:ProductInfoType[]}) {
                 <SelectInput label='지역을 선택하세요' lists={region1} onChange={(e:React.ChangeEvent<HTMLSelectElement>) => activeNext(e)}/>
                 <SelectInput label='지역을 선택하세요' lists={region2} disabled={isDisabled} onChange={(e:React.ChangeEvent<HTMLSelectElement>) => setAddress(e)}/>
             </Filter>
-            <ProductLists productDataLists={products} user={user}/>
+            <ProductLists productDataLists={products}/>
             <RoundButton color="#FF8A3D" onClick={() => router.push('/upload')}>
                 <MdOutlineAdd />
             </RoundButton>

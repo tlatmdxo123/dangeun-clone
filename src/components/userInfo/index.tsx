@@ -5,14 +5,14 @@ type UserInfo = {
     _id:string,
     name:string,
     address:string,
-    profile:string
+    image:string
 }
 
-function UserInfo({name,address,profile}:UserInfo) {
+function UserInfo({name,address,image}:UserInfo) {
     return (
         <UserInfoContainer>
             <Profile>
-                <img src={profile} alt={`${name}유저 프로필 이미지`} />
+                <img src={image} alt={`${name}유저 프로필 이미지`} />
             </Profile>
             <Info>
                 <span className='name'>{name}</span>

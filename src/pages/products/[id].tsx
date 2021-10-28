@@ -1,5 +1,5 @@
 import React from 'react';
-import {NextPageContext} from 'next'
+import {GetServerSidePropsContext, NextPageContext} from 'next'
 import Head from 'next/head'
 import { ProductInfo as ProductInfoType } from '../../types'
 import UserInfo from '../../components/userInfo';
@@ -9,15 +9,19 @@ import ImageSlide from '../../components/imageSlide';
 import ProductInfo from '../../components/productInfo';
 import ProductLists from '../../components/productLists';
 import Header from '../../components/common/Header';
+import { useRouter } from 'next/router';
+import { getSession } from 'next-auth/client';
+import { redirect } from '../../utils/routes';
 
 interface Props{
     productInfo:ProductInfoType,
-    userData:UserInfo,
-    productDataLists:ProductInfoType[]
+    user:UserInfo,
+    productsInfo:ProductInfoType[]
 }
 
 
-function InfomationPage({productInfo,userData,productDataLists}:Props) {
+function InfomationPage({productInfo,user,productsInfo}:Props) {
+    const router = useRouter();
     return (
         <>
             <Head>
@@ -30,45 +34,40 @@ function InfomationPage({productInfo,userData,productDataLists}:Props) {
                     <ImageSlide imageLists={productInfo.images} title={productInfo.title}/>
                 </SlideContainer>
                 
-                <UserInfo {...userData}/>
+                <UserInfo {...user}/>
                 <ProductInfo title={productInfo.title} price={productInfo.price} content={productInfo.content} category={productInfo.category} createdAt={productInfo.createdAt} chat={productInfo.chat} like={productInfo.like}/>
                 <PopularProductsContainer>
                     <HeaderContainer>
                         <h3 className='title'>당근마켓 인기중고</h3>
-                        <MoreButton>더 구경하기</MoreButton>
+                        <MoreButton onClick={() => router.push('/products')}>더 구경하기</MoreButton>
                     </HeaderContainer>
                     
-                    <ProductLists productDataLists={productDataLists}/>
+                    <ProductLists productDataLists={productsInfo}/>
                 </PopularProductsContainer>
             </Container>
         </>
     );
 }
 
-InfomationPage.getInitialProps = async ({query}:NextPageContext) => {
-    const productId = query.id
-    const productInfo:ProductInfoType = {
-        _id:'avf',
-        userId:'sdfasdf',
-        content:"원가 370,000 사용 1년 미만 깨끗하게 사용했습니다~",
-        createdAt:new Date(),
-        images:Array.from({length:10}).map((_) => "https://dnvefa72aowie.cloudfront.net/origin/article/202110/8B65A551506A9E9B9412357C3E32BBE6FF09C8BF9FBD132F59AF7DCC85632085.jpg?q=82&s=300x300&t=crop"),
-        title: "삼성 냉장고",
-        address: "서울 강북구 번3동",
-        category:'가전제품',
-        price:180000,
-        like: 4,
-        chat: 2,
-    }
-    const userInfo:UserInfo = {
-        _id:'sdfasdf',
-        name:'심승태',
-        address:"강북구 번3동",
-        profile:"https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Clipart.png"
-    }
-    const productDataLists = Array.from({length:10}).map((_) => productInfo)
+export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
+    const productId = ctx.query.id;
+    const session = await getSession(ctx)
+    if(!session) return redirect('/auth/signin')
 
-    return {productInfo,userData:userInfo,productDataLists}
+    if(session && session.user){
+        const res = await fetch(`http://localhost:3000/api/user/email/${session.user.email}`)
+            .then(res => res.json())
+
+        const productInfo = await fetch(`http://localhost:3000/api/product/${productId}`)
+            .then(res => res.json())
+        const productsInfo = await fetch(`http://localhost:3000/api/product`)
+            .then(res => res.json());
+
+        return {
+            props:{user:res,productInfo,productsInfo}
+        }
+    }
+    
 }
 
 const Container = styled(PageContainer)`

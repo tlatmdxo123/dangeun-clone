@@ -3,13 +3,15 @@ import { ProductInfo } from '../../types';
 import ProductItem from '../productItem';
 import styled from 'styled-components'
 import { User } from '../../store/user/types';
+import { useRouter } from 'next/router';
 
-function ProductLists({user,productDataLists}:{user:User,productDataLists:ProductInfo[]}) {
+function ProductLists({productDataLists}:{productDataLists:ProductInfo[]}) {
+    const router = useRouter();
     return (
         <Container>
             {productDataLists && productDataLists.map((productData,idx) => {
                 return (
-                    <ItemContainer key={idx} >
+                    <ItemContainer key={idx} onClick={() => router.push(`/products/${productData._id}`)}>
                         <ProductItem image={productData.images[0]} title={productData.title} price={productData.price} address={productData.address} chat={productData.chat} like={productData.like}/>
                     </ItemContainer>
                 )
