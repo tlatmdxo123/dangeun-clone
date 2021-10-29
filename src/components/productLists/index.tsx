@@ -2,7 +2,6 @@ import React from 'react';
 import { ProductInfo } from '../../types';
 import ProductItem from '../productItem';
 import styled from 'styled-components'
-import { User } from '../../store/user/types';
 import { useRouter } from 'next/router';
 
 function ProductLists({productDataLists}:{productDataLists:ProductInfo[]}) {
@@ -29,6 +28,7 @@ const Container = styled.ul`
 
 const ItemContainer = styled.li`
     margin-bottom: 50px;
+    cursor: pointer;
 `
 
 export default ProductLists;

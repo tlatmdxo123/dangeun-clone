@@ -1,18 +1,22 @@
-import { GetServerSidePropsContext } from 'next';
-import { getSession } from 'next-auth/client';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import SelectInput from '../../components/selectInput';
 import {nameMap} from '../../data'
+import withUser from '../../hoc/withUser';
 import { User } from '../../store/user/types';
-import { redirect } from '../../utils/routes';
-
-function SetAddress({user}:{user:User}) {
+interface Props{
+    user:User
+}
+const SetAddress:NextPage<Props> = ({user}) => {
     const [region2,setRegion2] = useState<string[]>([])
     const [addr,setAddr] = useState<string>('')
     const region1 = Object.keys(nameMap)
     const router = useRouter()
+
+    useEffect(() => {
+        if(user.addr) router.push('/products')
+    },[user.addr])
 
     let isDisabled = region2.length===0;
 
@@ -53,19 +57,6 @@ function SetAddress({user}:{user:User}) {
     );
 }
 
-export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
-    const session = await getSession(ctx)
-    if(!session) return redirect('/auth/signin')
 
-    if(session && session.user){
-        const res = await fetch(`http://localhost:3000/api/user/email/${session.user.email}`)
-            .then(res => res.json())
-        if(res.addr) return redirect('/products')
-        return {
-            props:{session,user:res}
-        }
-    }
-    
-}
 
-export default SetAddress;
+export default withUser(SetAddress);

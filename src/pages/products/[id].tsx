@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {GetServerSidePropsContext} from 'next'
+import { NextPage} from 'next'
 import Head from 'next/head'
 import { ProductInfo as ProductInfoType } from '../../types'
 import UserInfo from '../../components/userInfo';
@@ -10,30 +10,29 @@ import ProductInfo from '../../components/productInfo';
 import ProductLists from '../../components/productLists';
 import Header from '../../components/common/Header';
 import { useRouter } from 'next/router';
-import { getSession } from 'next-auth/client';
-import { redirect } from '../../utils/routes';
 import axios from 'axios'
+import { pipe } from '../../utils/pipe';
+import withUser from '../../hoc/withUser';
+import withProducts from '../../hoc/withProducts';
+import withProduct from '../../hoc/withProduct';
 
 interface Props{
-    productInfo:ProductInfoType,
-    user:UserInfo,
-    productsInfo:ProductInfoType[]
+    product:ProductInfoType,
+    products:ProductInfoType[]
 }
-
-
-function InfomationPage({productInfo,productsInfo}:Props) {
+const InfomationPage:NextPage<Props> = ({product,products}) => {
     const [user,setUser] = useState<UserInfo>();
     const router = useRouter();
 
     const fetchUser = async () => {
-        const user = await axios.get(`/api/user/${productInfo.userId}`)
+        const user = await axios.get(`/api/user/${product.userId}`)
         
         setUser(user.data);
     }
 
     useEffect(() => {
         fetchUser();
-    },[productInfo.userId])
+    },[product.userId])
     
     return (
         <>
@@ -44,42 +43,24 @@ function InfomationPage({productInfo,productsInfo}:Props) {
             <Header/>
             <Container>
                 <SlideContainer>
-                    <ImageSlide imageLists={productInfo.images} title={productInfo.title}/>
+                    <ImageSlide imageLists={product.images} title={product.title}/>
                 </SlideContainer>
                 
                 {user && <UserInfo name={user.name} address={user.address} image={user.image}/>}
-                <ProductInfo title={productInfo.title} price={productInfo.price} content={productInfo.content} category={productInfo.category} createdAt={productInfo.createdAt} chat={productInfo.chat} like={productInfo.like}/>
+                <ProductInfo title={product.title} price={product.price} content={product.content} category={product.category} createdAt={product.createdAt} chat={product.chat} like={product.like}/>
                 <PopularProductsContainer>
                     <HeaderContainer>
                         <h3 className='title'>당근마켓 인기중고</h3>
                         <MoreButton onClick={() => router.push('/products')}>더 구경하기</MoreButton>
                     </HeaderContainer>
                     
-                    <ProductLists productDataLists={productsInfo}/>
+                    <ProductLists productDataLists={products}/>
                 </PopularProductsContainer>
             </Container>
         </>
-    );
+    )
 }
 
-export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
-    const productId = ctx.query.id;
-    const session = await getSession(ctx)
-    if(!session) return redirect('/auth/signin')
-
-    if(session && session.user){
-
-        const productInfo = await fetch(`http://localhost:3000/api/product/${productId}`)
-            .then(res => res.json())
-        const productsInfo = await fetch(`http://localhost:3000/api/product`)
-            .then(res => res.json());
-
-        return {
-            props:{productInfo,productsInfo}
-        }
-    }
-    
-}
 
 const Container = styled(PageContainer)`
     position: relative;
@@ -108,8 +89,9 @@ const PopularProductsContainer = styled.div`
 
 const MoreButton = styled.button`
     cursor: pointer;
-    color:${props => props.theme.primary}
+    color:${props => props.theme.primary};
 `
 
+const withUserAndProductsAndProduct = pipe(withUser,withProducts,withProduct)
 
-export default InfomationPage;
+export default withUserAndProductsAndProduct(InfomationPage);

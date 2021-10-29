@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import {getSession} from 'next-auth/client'
-import {GetServerSidePropsContext, NextPageContext} from 'next'
-import { User } from '../../store/user/types';
-import { redirect } from '../../utils/routes';
 import Header from '../../components/common/Header';
 import { nameMap } from '../../data';
 import { useRouter } from 'next/router';
@@ -12,8 +8,15 @@ import { ProductInfo as ProductInfoType } from '../../types'
 import styled from 'styled-components'
 import { RoundButton } from '../../components/common/Buttons';
 import {MdOutlineAdd} from 'react-icons/md';
+import withUser from '../../hoc/withUser';
+import {pipe} from '../../utils/pipe'
+import withProducts from '../../hoc/withProducts';
+import { NextPage } from 'next';
+interface Props{
+    products:ProductInfoType[]
+}
 
-function ProductPage({user,products}:{user:User,products:ProductInfoType[]}) {
+const ProductPage:NextPage<Props> = ({products}) => {
     const [region2,setRegion2] = useState<string[]>([])
     const [addr,setAddr] = useState<string>('')
     const router = useRouter();
@@ -49,27 +52,9 @@ function ProductPage({user,products}:{user:User,products:ProductInfoType[]}) {
         </PageContainer>
         </>
     );
+
 }
 
-
-export const getServerSideProps = async (ctx:GetServerSidePropsContext) => {
-    const session = await getSession(ctx)
-    if(!session) return redirect('/auth/signin')
-
-    if(session && session.user){
-        const res = await fetch(`http://localhost:3000/api/user/email/${session.user.email}`)
-            .then(res => res.json())
-
-        if(!res.addr) return redirect('/user/set-address')
-
-        const products = await fetch("http://localhost:3000/api/product")
-            .then(res => res.json())
-
-        return {
-            props:{session,user:res,products}
-        }
-    }
-}
 
 export const PageContainer = styled.div`
     width: 90%;
@@ -102,4 +87,6 @@ const Filter = styled.div`
     margin-bottom:56px;
 `
 
-export default ProductPage;
+const withUserAndProducts = pipe(withUser,withProducts)
+
+export default withUserAndProducts(ProductPage);
